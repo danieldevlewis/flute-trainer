@@ -1,12 +1,7 @@
-@font-face {
-  font-family: "NotoMusic";
-  src: url("./assets/noto_music_regular.ttf");
-}
-
 .staff {
   height: 100px;
   position: relative;
-  font: 50px NotoMusic;
+  font: 50px "Noto Music";
   margin: 1em;
   padding: 0 0.2em;
 
