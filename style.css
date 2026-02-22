@@ -1,0 +1,157 @@
+@font-face {
+  font-family: "NotoMusic";
+  src: url("./assets/noto_music_regular.ttf");
+}
+
+.staff {
+  height: 100px;
+  position: relative;
+  font: 50px NotoMusic;
+  margin: 1em;
+  padding: 0 0.2em;
+
+  --offset: 0.1215em;
+
+  > .lines {
+    position: absolute;
+    inset: 0;
+    letter-spacing: -0.2em;
+  }
+
+  > span {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      display: inline-block;
+      right: -0.05em;
+      width: 0.55em;
+      overflow: hidden;
+    }
+
+    &.c4 {
+      top: calc(var(--offset) * 3);
+
+      &::before {
+        content: "\1D116";
+        top: calc(var(--offset) * 3);
+      }
+    }
+
+    &.d4 {
+      top: calc(var(--offset) * 2);
+    }
+
+    &.e4 {
+      top: var(--offset);
+    }
+
+    &.f4 {
+      top: 0;
+    }
+
+    &.g4 {
+      top: calc(var(--offset) * -1);
+    }
+
+    &.a4 {
+      top: calc(var(--offset) * -2);
+    }
+
+    &.b4 {
+      top: calc(var(--offset) * -3);
+    }
+
+    &.c5 {
+      top: calc(var(--offset) * -4);
+    }
+
+    &.d5 {
+      top: calc(var(--offset) * -5);
+    }
+
+    &.e5 {
+      top: calc(var(--offset) * -6);
+    }
+
+    &.f5 {
+      top: calc(var(--offset) * -7);
+    }
+
+    &.g5 {
+      top: calc(var(--offset) * -8);
+    }
+
+    &.c6 {
+      top: calc(var(--offset) * -9);
+
+      &::before {
+        content: "\1D116";
+        top: calc(var(--offset) * 3);
+      }
+    }
+
+    &.d6 {
+      top: calc(var(--offset) * -10);
+
+      &::before {
+        content: "\1D116";
+        top: calc(var(--offset) * 4);
+      }
+    }
+
+    &.e6 {
+      top: calc(var(--offset) * -11);
+
+      &::before {
+        content: "\1D117";
+        top: calc(var(--offset) * 3);
+      }
+    }
+
+    &.f6 {
+      top: calc(var(--offset) * -12);
+
+      &::before {
+        content: "\1D117";
+        top: calc(var(--offset) * 4);
+      }
+    }
+
+    &.g6 {
+      top: calc(var(--offset) * -13);
+
+      &::before {
+        content: "\1D118";
+        top: calc(var(--offset) * 5);
+      }
+    }
+
+    &.a6 {
+      top: calc(var(--offset) * -14);
+
+      &::before {
+        content: "\1D118";
+        top: calc(var(--offset) * 6);
+      }
+    }
+
+    &.b6 {
+      top: calc(var(--offset) * -15);
+
+      &::before {
+        content: "\1D119";
+        top: calc(var(--offset) * 5);
+      }
+    }
+
+    &.c7 {
+      top: calc(var(--offset) * -16);
+
+      &::before {
+        content: "\1D119";
+        top: calc(var(--offset) * 6);
+      }
+    }
+  }
+}

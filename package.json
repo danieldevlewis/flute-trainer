@@ -1,0 +1,13 @@
+{
+  "name": "flute-trainer",
+  "version": "1.0.0",
+  "description": "Training for flute notes",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx http-server -c-1"
+  }
+}
