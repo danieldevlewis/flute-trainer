@@ -5,9 +5,14 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx http-server -c-1"
+    "start": "parcel index.htm"
+  },
+  "dependencies": {
+    "pitchfinder": "^2.3.4"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.4"
   }
 }
