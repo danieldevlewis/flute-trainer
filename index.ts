@@ -1,6 +1,10 @@
 import { Listener } from "./frequency.ts";
+import { Game } from "./game.ts";
 
 document.getElementById("start").addEventListener("click", async () => {
+  const game = new Game();
+  game.play();
+
   const listener = new Listener();
   await listener.start();
   listener.listen((note: string) => {

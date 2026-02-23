@@ -1,6 +1,19 @@
 import { YIN } from "pitchfinder";
 
-const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+export const notes = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B",
+];
 
 function frequencyToNote(freq: number): string {
   const note = Math.round(12 * Math.log2(freq / 440) + 69);
@@ -12,6 +25,7 @@ export class Listener {
   #analyser!: AnalyserNode;
   #detect!: (array: Float32Array) => number | null;
   #buffer!: Float32Array<ArrayBuffer>;
+  #timeout?: number;
 
   async start() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
