@@ -151,93 +151,10 @@
   }
 }
 
-.flute {
-  width: 500px;
-  path,
-  ellipse {
-    stroke-width: 1px;
-  }
+c-flute {
+  display: block;
 
-  &.note-c4 {
-    #key-b-thumb,
-    #key-c,
-    #key-a,
-    #key-g,
-    #key-f,
-    #key-e,
-    #key-d,
-    #key-c♯-touch,
-    #key-c-roller {
-      fill: red;
-    }
-  }
-
-  &.note-d4 {
-    #key-b-thumb,
-    #key-c,
-    #key-a,
-    #key-g,
-    #key-f,
-    #key-e,
-    #key-d {
-      fill: red;
-    }
-  }
-
-  &.note-e4 {
-    #key-b-thumb,
-    #key-c,
-    #key-a,
-    #key-g,
-    #key-f,
-    #key-e,
-    #key-d♯-touch {
-      fill: red;
-    }
-  }
-
-  &.note-f4 {
-    #key-b-thumb,
-    #key-c,
-    #key-a,
-    #key-g,
-    #key-f,
-    #key-d♯-touch {
-      fill: red;
-    }
-  }
-
-  &.note-g4 {
-    #key-b-thumb,
-    #key-c,
-    #key-a,
-    #key-g,
-    #key-d♯-touch {
-      fill: red;
-    }
-  }
-
-  &.note-a4 {
-    #key-b-thumb,
-    #key-c,
-    #key-a,
-    #key-d♯-touch {
-      fill: red;
-    }
-  }
-
-  &.note-b4 {
-    #key-b-thumb,
-    #key-c,
-    #key-d♯-touch {
-      fill: red;
-    }
-  }
-
-  &.note-c5 {
-    #key-c,
-    #key-d♯-touch {
-      fill: red;
-    }
+  .pressed {
+    fill: red;
   }
 }

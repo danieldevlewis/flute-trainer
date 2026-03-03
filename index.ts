@@ -1,5 +1,6 @@
 import { Listener } from "./frequency.ts";
 import { Game } from "./game.ts";
+import "./flute.ts";
 
 document.getElementById("start").addEventListener("click", async () => {
   const game = new Game();

@@ -42,7 +42,7 @@ export class Game {
   }
 
   #randomNote(): string {
-    return `${notes[this.#randomInt(11)]}${[4, 5][this.#randomInt(1)]}`;
+    return `${notes[this.#randomInt(11)]}-${[4, 5][this.#randomInt(1)]}`;
   }
 
   #showNote(signal: AbortSignal) {
