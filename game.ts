@@ -2,54 +2,81 @@ import { notes, Listener } from "./frequency.ts";
 
 export class Game {
   #listener: Listener;
+  #events = new Map<string, Array<(event: CustomEvent) => void>>();
 
   constructor() {
     this.#listener = new Listener();
   }
 
-  async play() {
+  async play(signal = new AbortController().signal) {
     await this.#listener.start();
 
     do {
-      await this.#round();
+      await this.#round(signal);
+      if (signal.aborted) {
+        return;
+      }
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } while (true);
-
-    // Select random note
-
-    // Wait for note
-
-    // If no note show name
-
-    // If still no note show name
   }
 
-  async #round() {
+  addEventListener(name: string, listener: (event: CustomEvent) => void) {
+    let events = this.#events.get(name);
+    if (!events) {
+      events = [];
+      this.#events.set(name, events);
+    }
+    events.push(listener);
+  }
+
+  removeEventListener(name: string, listener: (event: CustomEvent) => void) {
+    const events = this.#events.get(name);
+    if (!events) {
+      return;
+    }
+    const index = events.indexOf(listener);
+    if (index > -1) {
+      events.splice(index, 1);
+    }
+  }
+
+  dispatchEvent(event: CustomEvent) {
+    this.#events.get(event.type)?.forEach((listener) => listener(event));
+  }
+
+  async #round(gameSignal: AbortSignal) {
     const note = this.#randomNote();
-    console.log(`wait for note ${note}`);
     const controller = new AbortController();
-    this.#showNote(controller.signal);
-    this.#showFingering(controller.signal);
+    this.#showNote(note, controller.signal);
+    this.#showFingering(note, controller.signal);
+    const event = new CustomEvent("start-round", { detail: note });
+    this.dispatchEvent(event);
 
     let recievedNote: string;
     do {
-      recievedNote = await this.#listener.waitForNote();
-      await new Promise((resolve) => setTimeout(resolve, 200));
-      console.log("resolved note", recievedNote, note);
+      try {
+        recievedNote = await this.#listener.waitForNote(gameSignal);
+      } catch (e) {
+        if (gameSignal.aborted) {
+          return;
+        }
+        throw e;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      console.log(recievedNote, note);
     } while (recievedNote !== note);
-    console.log("round won");
     controller.abort();
   }
 
   #randomNote(): string {
-    return `${notes[this.#randomInt(11)]}-${[4, 5][this.#randomInt(1)]}`;
+    return `${notes[this.#randomInt(11)]}-${[4, 5][this.#randomInt(2)]}`;
   }
 
-  #showNote(signal: AbortSignal) {
+  #showNote(note: string, signal: AbortSignal) {
     const timeout = window.setTimeout(() => {
       if (!signal.aborted) {
-        console.log("note");
-        // Show note
+        const event = new CustomEvent("show-note", { detail: note });
+        this.dispatchEvent(event);
       }
     }, 2000);
     signal.addEventListener("abort", () => {
@@ -57,11 +84,11 @@ export class Game {
     });
   }
 
-  #showFingering(signal: AbortSignal) {
+  #showFingering(note: string, signal: AbortSignal) {
     const timeout = window.setTimeout(() => {
       if (!signal.aborted) {
-        console.log("finguring");
-        // Show fingering
+        const event = new CustomEvent("show-fingering", { detail: note });
+        this.dispatchEvent(event);
       }
     }, 4000);
     signal.addEventListener("abort", () => {

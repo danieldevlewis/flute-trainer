@@ -23,9 +23,8 @@ const notes: string[][][] = [
   [["b-thumb", "c", "a", "d♯-touch"]],
   // a#-4
   [
-    ["b♭-thumb", "c", "d♯-touch"],
-    ["b-thumb", "c", "b♭-shake", "d♯-touch"],
     ["b-thumb", "c", "f", "d♯-touch"],
+    ["b♭-thumb", "c", "d♯-touch"],
   ],
   // b-4
   [["b-thumb", "c", "d♯-touch"]],
@@ -51,9 +50,8 @@ const notes: string[][][] = [
   [["b-thumb", "c", "a", "d♯-touch"]],
   // a#-5
   [
-    ["b♭-thumb", "c", "d♯-touch"],
-    ["b-thumb", "c", "b♭-shake", "d♯-touch"],
     ["b-thumb", "c", "f", "d♯-touch"],
+    ["b♭-thumb", "c", "d♯-touch"],
   ],
   // b-5
   [["b-thumb", "c", "d♯-touch"]],
@@ -139,7 +137,7 @@ const keys = [
 ];
 
 class HTMLFlute extends HTMLElement {
-  static observedAttributes = ["note"];
+  static observedAttributes = ["note", "variation"];
 
   get note() {
     return this.getAttribute("note");
@@ -153,33 +151,49 @@ class HTMLFlute extends HTMLElement {
     }
   }
 
+  get variation(): number {
+    const value = this.getAttribute("variation");
+    return (value && parseInt(value, 10)) || 0;
+  }
+
+  set variation(value) {
+    if (value) {
+      this.setAttribute("note", value.toString());
+    } else {
+      this.removeAttribute("variation");
+    }
+  }
+
   connectedCallback() {
     const templateElement = document.getElementById(
-      "flute",
+      "flute-template",
     ) as HTMLTemplateElement;
     const flute = document
       .importNode(templateElement.content, true)
       .querySelector("svg");
     if (flute) {
       this.appendChild(flute);
-      if (this.note) {
-        this.#setNote(this.note);
-      }
+      this.#setNote();
     }
   }
 
-  attributeChangedCallback(name: string, _?: string, newValue?: string) {
-    if (name === "note" && newValue) {
-      this.#setNote(newValue);
+  attributeChangedCallback(name: string) {
+    if (name === "note" || name === "variation") {
+      this.#setNote();
     }
   }
 
-  #setNote(note: string, variation: number = 0) {
+  #setNote() {
     this.querySelectorAll(keys.map((k) => `.key-${k}`).join(",")).forEach(
       (e: Element) => e.classList.remove("pressed"),
     );
 
-    const fingering = this.#noteFingering(note, variation);
+    const note = this.note;
+    if (!note) {
+      return;
+    }
+
+    const fingering = this.#noteFingering(note, this.variation);
     if (!fingering) {
       return;
     }

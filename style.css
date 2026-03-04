@@ -1,8 +1,16 @@
+html {
+  font-size: 1em/1.5 sans-serif;
+}
+
+body {
+  margin: 1em;
+}
+
 .staff {
   height: 100px;
   position: relative;
   font: 50px "Noto Music";
-  margin: 1em;
+  margin: 2em 0 0.5em 0;
   padding: 0 0.2em;
 
   --offset: 0.1215em;
@@ -11,16 +19,18 @@
     position: absolute;
     inset: 0;
     letter-spacing: -0.2em;
+    overflow: hidden;
   }
 
-  > span {
+  span {
     position: relative;
+    margin-right: 0.1em;
 
     &::before {
       position: absolute;
       display: inline-block;
-      right: -0.05em;
-      width: 0.55em;
+      width: 0.45em;
+      right: 0;
       overflow: hidden;
     }
 
@@ -77,7 +87,7 @@
       top: calc(var(--offset) * -8);
     }
 
-    &.c6 {
+    &.a5 {
       top: calc(var(--offset) * -9);
 
       &::before {
@@ -86,7 +96,7 @@
       }
     }
 
-    &.d6 {
+    &.b5 {
       top: calc(var(--offset) * -10);
 
       &::before {
@@ -95,7 +105,7 @@
       }
     }
 
-    &.e6 {
+    &.c6 {
       top: calc(var(--offset) * -11);
 
       &::before {
@@ -104,7 +114,7 @@
       }
     }
 
-    &.f6 {
+    &.d6 {
       top: calc(var(--offset) * -12);
 
       &::before {
@@ -113,7 +123,7 @@
       }
     }
 
-    &.g6 {
+    &.e6 {
       top: calc(var(--offset) * -13);
 
       &::before {
@@ -122,7 +132,7 @@
       }
     }
 
-    &.a6 {
+    &.f6 {
       top: calc(var(--offset) * -14);
 
       &::before {
@@ -131,7 +141,7 @@
       }
     }
 
-    &.b6 {
+    &.g6 {
       top: calc(var(--offset) * -15);
 
       &::before {
@@ -140,12 +150,30 @@
       }
     }
 
-    &.c7 {
+    &.a6 {
       top: calc(var(--offset) * -16);
 
       &::before {
         content: "\1D119";
         top: calc(var(--offset) * 6);
+      }
+    }
+
+    &.b6 {
+      top: calc(var(--offset) * -17);
+
+      &::before {
+        content: "\1D11A";
+        top: calc(var(--offset) * 7);
+      }
+    }
+
+    &.c7 {
+      top: calc(var(--offset) * -18);
+
+      &::before {
+        content: "\1D11A";
+        top: calc(var(--offset) * 8);
       }
     }
   }
@@ -154,7 +182,30 @@
 c-flute {
   display: block;
 
+  svg {
+    width: 100%;
+  }
+
   .pressed {
     fill: red;
+  }
+}
+
+.fingerings {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  justify-items: start;
+
+  dt {
+    font-weight: bold;
+    font-size: 2em;
+    margin-top: 4rem;
+  }
+
+  dd + dd {
+    margin-top: 4rem;
+    display: flex;
+    gap: 3rem;
   }
 }

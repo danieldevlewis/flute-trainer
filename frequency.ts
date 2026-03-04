@@ -18,14 +18,14 @@ export const notes = [
 function frequencyToNote(freq: number): string {
   const note = Math.round(12 * Math.log2(freq / 440) + 69);
 
-  return `${notes[note % 12]}${Math.floor(note / 12) - 1}`;
+  return `${notes[note % 12]}-${Math.floor(note / 12) - 1}`;
 }
 
 export class Listener {
   #analyser!: AnalyserNode;
   #detect!: (array: Float32Array) => number | null;
   #buffer!: Float32Array<ArrayBuffer>;
-  #timeout?: number;
+  #timeout = 0;
 
   async start() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -51,8 +51,12 @@ export class Listener {
     this.#analyser = analyser;
   }
 
-  async waitForNote(): Promise<string> {
-    const { promise, resolve } = Promise.withResolvers<string>();
+  async waitForNote(signal = new AbortController().signal): Promise<string> {
+    const { promise, resolve, reject } = Promise.withResolvers<string>();
+    signal.addEventListener("abort", () => {
+      window.cancelAnimationFrame(this.#timeout);
+      reject();
+    });
     this.#listen((note: string) => {
       resolve(note);
       return true;
@@ -60,8 +64,14 @@ export class Listener {
     return promise;
   }
 
-  listen(callback: (note: string) => boolean) {
-    this.#listen(callback);
+  listen(
+    callback: (note: string) => boolean,
+    signal = new AbortController().signal,
+  ) {
+    this.#timeout = window.requestAnimationFrame(() => this.#listen(callback));
+    signal.addEventListener("abort", () => {
+      window.cancelAnimationFrame(this.#timeout);
+    });
   }
 
   #listen(callback: (note: string) => boolean) {
@@ -81,6 +91,6 @@ export class Listener {
       }
     }
 
-    window.requestAnimationFrame(() => this.#listen(callback));
+    this.#timeout = window.requestAnimationFrame(() => this.#listen(callback));
   }
 }
